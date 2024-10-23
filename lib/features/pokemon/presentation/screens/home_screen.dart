@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +14,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isGridView = false;
+
   @override
   void initState() {
     super.initState();
@@ -30,8 +31,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          const ListviewSwitch(),
-           PokemonsList(),
+          ListviewSwitch(
+            value: isGridView,
+            onChanged: (value) {
+              setState(() {
+                isGridView = value;
+              });
+            },
+          ),
+          PokemonsList(isGridView: isGridView),
         ],
       ),
     );

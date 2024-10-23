@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ListviewSwitch extends StatefulWidget {
-  const ListviewSwitch({super.key});
+class ListviewSwitch extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool> onChanged;
 
-  @override
-  State<ListviewSwitch> createState() => _ListviewSwitchState();
-}
-
-class _ListviewSwitchState extends State<ListviewSwitch> {
-  bool isOneItemListView = false;
+  const ListviewSwitch(
+      {super.key, required this.value, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +16,8 @@ class _ListviewSwitchState extends State<ListviewSwitch> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Switch(
-            value: isOneItemListView,
-            onChanged: (value) {
-              setState(() {
-                isOneItemListView = value;
-              });
-            },
+            value: value,
+            onChanged: onChanged,
           ),
         ],
       ),
