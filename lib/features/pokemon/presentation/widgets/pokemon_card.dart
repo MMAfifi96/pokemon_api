@@ -11,8 +11,6 @@ class PokemonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print('Navigating to details page for ID: ${pokemon.id}');
-
         GoRouter.of(context).pushNamed(
           'details',
           params: {'id': pokemon.id.toString()},
@@ -20,33 +18,24 @@ class PokemonCard extends StatelessWidget {
       },
       child: Container(
         color: Colors.purple,
-        height: 100,
-        width: double.infinity,
-        child: Row(
+        padding: const EdgeInsets.all(8.0),
+        child: Column( // Use a Column instead of a Row for better layout in grids
+          crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 75,
-                width: 75,
-                child: Image.network(
-                  pokemon.imageUrl,
-                  fit: BoxFit.fill,
-                ),
+            // Constrain the image size
+            SizedBox(
+              height: 75,
+              width: 75,
+              child: Image.network(
+                pokemon.imageUrl,
+                fit: BoxFit.fill,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('ID: ${pokemon.id}'),
-                  Text('Name: ${pokemon.name}'),
-                  Text('Base Experience: ${pokemon.baseExperience}'),
-                ],
-              ),
-            )
+            const SizedBox(height: 8.0), // Add some spacing between image and text
+            // Texts will dynamically take up space
+            Text('ID: ${pokemon.id}', overflow: TextOverflow.ellipsis), // Prevent overflow
+            Text('Name: ${pokemon.name}', overflow: TextOverflow.ellipsis), // Prevent overflow
+            Text('Experience: ${pokemon.baseExperience}', overflow: TextOverflow.ellipsis), // Prevent overflow
           ],
         ),
       ),

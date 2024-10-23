@@ -19,16 +19,16 @@ class PokemonGridView extends StatelessWidget {
       width: double.infinity,
       child: GridView.builder(
         controller: scrollController,
+        padding: const EdgeInsets.all(8.0), // Add padding to the grid
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
+          crossAxisSpacing: 10, // Add spacing between items horizontally
+          mainAxisSpacing: 10, // Add spacing between items vertically
         ),
         itemCount: pokemons.length,
         itemBuilder: (BuildContext context, int index) {
           final pokemon = pokemons[index];
-          return Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: PokemonCard(pokemon: pokemon),
-          );
+          return PokemonCard(pokemon: pokemon);
         },
       ),
     );
