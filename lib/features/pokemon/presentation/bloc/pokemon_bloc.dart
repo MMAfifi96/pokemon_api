@@ -1,43 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/data_source/remote/pokeAPI.dart';
-import '../../data/data_models/pokemon_data_model.dart';
+import 'package:pokemon_api/features/pokemon/presentation/bloc/pokemone_state.dart';
+import '../../domain/usecases/fetch_pokemons_usecase.dart';
 import 'pokemon_event.dart';
-import 'pokemone_state.dart';
 
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
-  final PokemonApiClient apiClient;
-  int offset = 0;
-  int limit = 20;
-  bool isFetchingMore = false;
+  final FetchPokemonsUseCase fetchPokemons;
 
-  PokemonBloc(this.apiClient) : super(PokemonInitial()) {
+  PokemonBloc(this.fetchPokemons) : super(PokemonInitial()) {
     on<FetchPokemonList>((event, emit) async {
-      if (!isFetchingMore) {
-        emit(PokemonLoading());
-        try {
-          final pokemons = await apiClient.fetchPokemons(offset, limit);
-          emit(PokemonLoaded(pokemons));
-        } catch (e) {
-          emit(PokemonError("Failed to fetch Pokemon list"));
-        }
-      }
-    });
-
-    on<FetchMorePokemons>((event, emit) async {
-      if (!isFetchingMore) {
-        isFetchingMore = true;
-        try {
-          final morePokemons = await apiClient.fetchPokemons(offset, limit);
-          offset += limit;
-          if (state is PokemonLoaded) {
-            final currentPokemons = (state as PokemonLoaded).pokemons;
-            emit(PokemonLoaded(currentPokemons + morePokemons));
-          }
-        } catch (e) {
-          emit(PokemonError("Failed to load more Pokémon"));
-        } finally {
-          isFetchingMore = false;
-        }
+      emit(PokemonLoading());
+      try {
+        final pokemons = await fetchPokemons(0, 20);
+        emit(PokemonLoaded(pokemons));
+      } catch (e) {
+        emit(PokemonError("Failed to fetch Pokemon list"));
       }
     });
   }

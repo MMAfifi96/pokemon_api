@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_api/features/pokemon/data/data_models/pokemon_data_model.dart';
-import 'package:pokemon_api/features/pokemon/presentation/widgets/pokemon_card.dart';
+import '../../domain/entities/pokemon_model.dart';
+import 'pokemon_card.dart';
 
 class PokemonListView extends StatelessWidget {
-  final List<PokemonDataModel> pokemons;
+  final List<PokemonModel> pokemons;
   final ScrollController scrollController;
 
   const PokemonListView({

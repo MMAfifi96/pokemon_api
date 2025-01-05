@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pokemon_api/features/pokemon/data/data_models/pokemon_data_model.dart';
+import '../../domain/entities/pokemon_model.dart';
 
 abstract class PokemonState extends Equatable {
   const PokemonState();
@@ -13,7 +13,7 @@ class PokemonInitial extends PokemonState {}
 class PokemonLoading extends PokemonState {}
 
 class PokemonLoaded extends PokemonState {
-  final List<PokemonDataModel> pokemons;
+  final List<PokemonModel> pokemons;
 
   const PokemonLoaded(this.pokemons);
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_api/features/pokemon/data/data_models/pokemon_data_model.dart';
-import 'package:pokemon_api/features/pokemon/presentation/widgets/pokemon_card.dart';
+import '../../domain/entities/pokemon_model.dart';
+import 'pokemon_card.dart';
 
 class PokemonGridView extends StatelessWidget {
-  final List<PokemonDataModel> pokemons;
+  final List<PokemonModel> pokemons;
   final ScrollController scrollController;
 
   const PokemonGridView({
@@ -19,11 +19,11 @@ class PokemonGridView extends StatelessWidget {
       width: double.infinity,
       child: GridView.builder(
         controller: scrollController,
-        padding: const EdgeInsets.all(8.0), // Add padding to the grid
+        padding: const EdgeInsets.all(8.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 10, // Add spacing between items horizontally
-          mainAxisSpacing: 10, // Add spacing between items vertically
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
         ),
         itemCount: pokemons.length,
         itemBuilder: (BuildContext context, int index) {

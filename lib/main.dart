@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_api/config/routes/routes.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'features/pokemon/presentation/bloc/pokemon_bloc.dart';
 import 'config/routes/routes.dart';
 
 void main() {
