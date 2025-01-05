@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/pokemon_bloc.dart';
 import '../bloc/pokemon_event.dart';
-import '../widgets/listView_switch.dart';
-import '../widgets/pokemons_list.dart';
+import '../widgets/home_screen_widgets/listView_switch.dart';
+import '../widgets/home_screen_widgets/pokemons_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

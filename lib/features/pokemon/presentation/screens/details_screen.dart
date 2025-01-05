@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:go_router/go_router.dart';
+import '../widgets/details_screen_widgets/pokemon_details_list.dart';
+import '../widgets/details_screen_widgets/pokemon_images_carousel.dart';
 
 class DetailsScreen extends StatefulWidget {
   final String id;
@@ -15,6 +16,9 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   Map<String, String> sprites = {};
   String pokemonName = '';
+  List<String> abilities = [];
+  List<String> types = [];
+  List<Map<String, dynamic>> stats = [];
   bool isLoading = true;
 
   @override
@@ -26,17 +30,39 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Future<void> _fetchPokemonDetails() async {
     try {
       var response =
-          await Dio().get('https://pokeapi.co/api/v2/pokemon/${widget.id}');
+      await Dio().get('https://pokeapi.co/api/v2/pokemon/${widget.id}');
       var data = response.data;
 
       setState(() {
+        // Fetch sprites
         sprites = {
           'front_default': data['sprites']['front_default'],
           'back_default': data['sprites']['back_default'],
           'front_shiny': data['sprites']['front_shiny'],
           'back_shiny': data['sprites']['back_shiny'],
         };
+
+        // Fetch Pokémon name
         pokemonName = data['name'];
+
+        // Fetch abilities
+        abilities = (data['abilities'] as List)
+            .map((ability) => ability['ability']['name'] as String)
+            .toList();
+
+        // Fetch types
+        types = (data['types'] as List)
+            .map((type) => type['type']['name'] as String)
+            .toList();
+
+        // Fetch stats
+        stats = (data['stats'] as List)
+            .map((stat) => {
+          'name': stat['stat']['name'],
+          'value': stat['base_stat'],
+        })
+            .toList();
+
         isLoading = false;
       });
     } catch (error) {
@@ -65,42 +91,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Container(
-              height: MediaQuery.sizeOf(context).height / 4,
-              width: screenWidth,
-              color: Colors.red,
-              child: isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : sprites.isNotEmpty
-                      ? CarouselSlider(
-                          options: CarouselOptions(
-                            height: MediaQuery.sizeOf(context).height / 4,
-                            autoPlay: true,
-                            autoPlayInterval: Duration(seconds: 2),
-                          ),
-                          items: sprites.entries.map((sprite) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return Image.network(sprite.value,
-                                    fit: BoxFit.contain);
-                              },
-                            );
-                          }).toList(),
-                        )
-                      : const Center(child: Text("No sprites available")),
+            // Red section for carousel images
+            PokemonImagesCarousel(
+              sprites: sprites,
+              isLoading: isLoading,
             ),
+
             const SizedBox(height: 10),
-            Container(
-              color: Colors.green,
-              height: MediaQuery.sizeOf(context).height / 1.8,
-              width: screenWidth,
-              child: ListView.builder(
-                itemCount: 50,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text('Detail item #$index'),
-                  );
-                },
+
+            // Green section for details
+            Expanded(
+              child: PokemonDetailsList(
+                isLoading: isLoading,
+                abilities: abilities,
+                types: types,
+                stats: stats,
               ),
             ),
           ],

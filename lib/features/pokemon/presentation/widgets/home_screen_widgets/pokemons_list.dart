@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_api/features/pokemon/presentation/widgets/pokemons_gridView.dart';
-import 'package:pokemon_api/features/pokemon/presentation/widgets/pokemons_listView.dart';
-import '../bloc/pokemon_event.dart';
-import '../bloc/pokemon_bloc.dart';
-import '../bloc/pokemone_state.dart';
+import 'package:pokemon_api/features/pokemon/presentation/widgets/home_screen_widgets/pokemons_gridView.dart';
+import 'package:pokemon_api/features/pokemon/presentation/widgets/home_screen_widgets/pokemons_listView.dart';
+import '../../bloc/pokemon_event.dart';
+import '../../bloc/pokemon_bloc.dart';
+import '../../bloc/pokemone_state.dart';
 
 class PokemonsList extends StatefulWidget {
   final bool isGridView;

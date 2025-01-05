@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/pokemon_model.dart';
+import '../../../domain/entities/pokemon_model.dart';
 import 'pokemon_card.dart';
 
 class PokemonGridView extends StatelessWidget {

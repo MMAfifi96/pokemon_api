@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../domain/entities/pokemon_model.dart';
+import '../../../domain/entities/pokemon_model.dart';
 
 class PokemonCard extends StatelessWidget {
   final PokemonModel pokemon;
