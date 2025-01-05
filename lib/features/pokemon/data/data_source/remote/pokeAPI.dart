@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../../../domain/usecases/fetch_pokemons_usecase.dart';
+import '../../data_models/pokemon_data_model.dart';
 
 class PokemonApiClient {
   final Dio _dio = Dio();

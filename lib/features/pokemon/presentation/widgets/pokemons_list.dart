@@ -25,7 +25,7 @@ class _PokemonsListState extends State<PokemonsList> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        context.read<PokemonBloc>().add(const FetchMorePokemons());
+        context.read<PokemonBloc>().add( FetchMorePokemons());
       }
     });
   }

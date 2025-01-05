@@ -13,7 +13,7 @@ class PokemonCard extends StatelessWidget {
       onTap: () {
         GoRouter.of(context).pushNamed(
           'details',
-          params: {'id': pokemon.name},
+          params: {'id': pokemon.id.toString()},
         );
       },
       child: Container(
@@ -26,12 +26,17 @@ class PokemonCard extends StatelessWidget {
               height: 75,
               width: 75,
               child: Image.network(
-                pokemon.url,
+                pokemon.imageUrl,
                 fit: BoxFit.fill,
               ),
             ),
             const SizedBox(height: 8.0),
+            Text('ID: ${pokemon.id}', overflow: TextOverflow.ellipsis),
             Text('Name: ${pokemon.name}', overflow: TextOverflow.ellipsis),
+            Text(
+              'Base Experience: ${pokemon.baseExperience}',
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),

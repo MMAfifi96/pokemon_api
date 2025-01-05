@@ -19,14 +19,12 @@ class PokemonDataModel {
 
     final id = int.tryParse(url.split('/')[url.split('/').length - 2]) ?? 0;
 
-    final baseExperience = json['base_experience'] ?? 0;
-
     return PokemonDataModel(
       id: id,
       name: json['name'] ?? 'Unknown',
       imageUrl:
-          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png',
-      baseExperience: baseExperience,
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png',
+      baseExperience: json['base_experience'] ?? 0,
     );
   }
 }

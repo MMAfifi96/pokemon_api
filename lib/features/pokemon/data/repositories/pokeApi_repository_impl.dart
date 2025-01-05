@@ -10,11 +10,11 @@ class PokemonRepositoryImpl implements PokemonRepository {
   @override
   Future<List<PokemonModel>> fetchPokemons(int offset, int limit) async {
     final dataModels = await apiClient.fetchPokemons(offset, limit);
-    return dataModels
-        .map((dataModel) => PokemonModel(
+    return dataModels.map((dataModel) => PokemonModel(
+      id: dataModel.id,
       name: dataModel.name,
-      url: dataModel.imageUrl,
-    ))
-        .toList();
+      imageUrl: dataModel.imageUrl,
+      baseExperience: dataModel.baseExperience,
+    )).toList();
   }
 }

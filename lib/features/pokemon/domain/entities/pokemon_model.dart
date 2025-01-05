@@ -1,16 +1,13 @@
 class PokemonModel {
+  final int id;
   final String name;
-  final String url;
+  final String imageUrl;
+  final int baseExperience;
 
   PokemonModel({
+    required this.id,
     required this.name,
-    required this.url,
+    required this.imageUrl,
+    required this.baseExperience,
   });
-
-  factory PokemonModel.fromJson(Map<String, dynamic> json) {
-    return PokemonModel(
-      name: json['name'],
-      url: json['url'],
-    );
-  }
 }
