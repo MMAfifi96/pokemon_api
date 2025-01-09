@@ -30,7 +30,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Future<void> _fetchPokemonDetails() async {
     try {
       var response =
-      await Dio().get('https://pokeapi.co/api/v2/pokemon/${widget.id}');
+          await Dio().get('https://pokeapi.co/api/v2/pokemon/${widget.id}');
       var data = response.data;
 
       setState(() {
@@ -58,9 +58,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
         // Fetch stats
         stats = (data['stats'] as List)
             .map((stat) => {
-          'name': stat['stat']['name'],
-          'value': stat['base_stat'],
-        })
+                  'name': stat['stat']['name'],
+                  'value': stat['base_stat'],
+                })
             .toList();
 
         isLoading = false;
@@ -75,8 +75,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.sizeOf(context).width;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

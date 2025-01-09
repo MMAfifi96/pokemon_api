@@ -15,9 +15,16 @@ class ListviewSwitch extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Switch(
+          Switch.adaptive(
             value: value,
             onChanged: onChanged,
+            activeTrackColor: Colors.green,
+            activeThumbImage: AssetImage(
+              'assets/images/pokemon-ball-nbg.png',
+            ),
+            inactiveThumbImage: AssetImage(
+              'assets/images/pokemon-ball-nbg.png',
+            ),
           ),
         ],
       ),
