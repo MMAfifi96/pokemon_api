@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../bloc/pokemon_bloc.dart';
 import '../bloc/pokemon_event.dart';
 import '../widgets/home_screen_widgets/listView_switch.dart';
@@ -53,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ElevatedButton(
                     onPressed: () {
                       print('game');
+                      GoRouter.of(context).goNamed('game');
                     },
                     child: Row(
                       children: [

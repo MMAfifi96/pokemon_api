@@ -1,12 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_api/features/pokemon/domain/entities/pokemon_model.dart';
 import 'package:pokemon_api/features/pokemon/domain/repositories/pokemon_repository.dart';
 import 'package:pokemon_api/features/pokemon/presentation/screens/home_screen.dart';
 import 'package:pokemon_api/features/pokemon/presentation/screens/details_screen.dart';
 import 'package:pokemon_api/features/pokemon/domain/usecases/fetch_pokemons_usecase.dart';
 import 'package:pokemon_api/features/pokemon/data/data_source/remote/pokeAPI.dart';
 import 'package:pokemon_api/features/pokemon/presentation/bloc/pokemon_bloc.dart';
+import '../../features/guessing_game/presentation/pages/game_screen.dart';
 import '../../features/pokemon/data/repositories/pokeApi_repository_impl.dart';
 
 final GoRouter router = GoRouter(
@@ -17,9 +17,10 @@ final GoRouter router = GoRouter(
       builder: (context, state) => BlocProvider(
         create: (context) {
           final apiClient = PokemonApiClient();
-          final repository = PokemonRepositoryImpl(apiClient ); // Correct usage
-          final fetchPokemonsUseCase = FetchPokemonsUseCase(repository as PokemonRepository); // Correct usage
-          return PokemonBloc(fetchPokemonsUseCase ); // Correct usage
+          final repository = PokemonRepositoryImpl(apiClient);
+          final fetchPokemonsUseCase =
+              FetchPokemonsUseCase(repository as PokemonRepository);
+          return PokemonBloc(fetchPokemonsUseCase);
         },
         child: const HomeScreen(),
       ),
@@ -31,6 +32,11 @@ final GoRouter router = GoRouter(
         final id = int.parse(state.params['id']!);
         return DetailsScreen(id: id.toString());
       },
+    ),
+    GoRoute(
+      path: '/game',
+      name: 'game',
+      builder: (context, state) => const GameScreen(), // Define the screen
     ),
   ],
 );
