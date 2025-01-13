@@ -54,7 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ElevatedButton(
                     onPressed: () {
                       print('game');
-                      GoRouter.of(context).goNamed('game');
+                      GoRouter.of(context).pushNamed('game'); // Navigate to the game screen
+
                     },
                     child: Row(
                       children: [

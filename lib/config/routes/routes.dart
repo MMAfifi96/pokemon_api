@@ -36,7 +36,8 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/game',
       name: 'game',
-      builder: (context, state) => const GameScreen(), // Define the screen
+      builder: (context, state) => const GameScreen(),
     ),
+
   ],
 );
