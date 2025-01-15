@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +14,11 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+  bool isBlurred = true;
+  final TextEditingController _textController = TextEditingController();
+  String? answerFeedbackMessage;
+  Color answerFeedbackColor = Colors.transparent;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +41,7 @@ class _GameScreenState extends State<GameScreen> {
                   child: Center(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: Colors.grey.shade400,
                         border: Border.all(width: 5, color: Colors.purple),
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -44,9 +50,36 @@ class _GameScreenState extends State<GameScreen> {
                       child: state is GamePokemonLoading
                           ? const Center(child: CircularProgressIndicator())
                           : state is GamePokemonLoaded
-                              ? Image.network(
-                                  state.imageUrl,
-                                  fit: BoxFit.contain,
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Stack(
+                                    children: [
+                                      ImageFiltered(
+                                        imageFilter: isBlurred
+                                            ? ImageFilter.blur(
+                                                sigmaX: 5.0,
+                                                sigmaY: 5.0,
+                                              )
+                                            : ImageFilter.blur(
+                                                sigmaX: 0.0,
+                                                sigmaY: 0.0,
+                                              ),
+                                        child: Image.network(
+                                          state.imageUrl,
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                        ),
+                                      ),
+                                      if (isBlurred)
+                                        Positioned.fill(
+                                          child: Container(
+                                            color:
+                                                Colors.black.withOpacity(0.1),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
                                 )
                               : const Center(
                                   child: Text(
@@ -64,9 +97,15 @@ class _GameScreenState extends State<GameScreen> {
                   width: 200,
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.purple),
+                      backgroundColor: WidgetStateProperty.all(Colors.purple),
                     ),
                     onPressed: () {
+                      setState(() {
+                        isBlurred = true;
+                        _textController.clear();
+                        answerFeedbackMessage = null;
+                        answerFeedbackColor = Colors.transparent;
+                      });
                       context
                           .read<GamePokemonBloc>()
                           .add(FetchRandomPokemonEvent());
@@ -78,12 +117,13 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 30, 15, 30),
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
                   child: Row(
                     children: [
-                      const Expanded(
+                      Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
+                          controller: _textController,
+                          decoration: const InputDecoration(
                             hintText: "Enter Pokémon name",
                             border: OutlineInputBorder(),
                           ),
@@ -93,7 +133,24 @@ class _GameScreenState extends State<GameScreen> {
                         padding: const EdgeInsets.fromLTRB(20, 20, 15, 0),
                         child: InkWell(
                           onTap: () {
-                            print('Checking the answer...');
+                            if (state is GamePokemonLoaded &&
+                                _textController.text.trim().toLowerCase() ==
+                                    state.name.toLowerCase()) {
+                              setState(() {
+                                isBlurred = false;
+                                answerFeedbackMessage =
+                                    "Correct! 💪🏼😉 \nPokémon Name: ${state.name}";
+                                answerFeedbackColor = Colors.green;
+                              });
+                              print("Correct! 💪🏼😉 Pokémon Name: ${state.name}");
+                            } else {
+                              setState(() {
+                                answerFeedbackMessage =
+                                    "Incorrect 😢. Try again!";
+                                answerFeedbackColor = Colors.red;
+                              });
+                              print("Incorrect 😢. Try again!");
+                            }
                           },
                           child: const Text(
                             '✅',
@@ -104,6 +161,18 @@ class _GameScreenState extends State<GameScreen> {
                     ],
                   ),
                 ),
+                if (answerFeedbackMessage != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Text(
+                      answerFeedbackMessage!,
+                      style: TextStyle(
+                        color: answerFeedbackColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
               ],
             ),
           );
