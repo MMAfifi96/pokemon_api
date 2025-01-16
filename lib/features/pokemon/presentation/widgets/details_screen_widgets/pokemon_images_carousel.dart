@@ -17,34 +17,43 @@ class PokemonImagesCarousel extends StatelessWidget {
     final screenWidth = MediaQuery.sizeOf(context).width;
 
     return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
+        border: Border.all(
+          color: Colors.purple,
+          width: 5,
+        ),
+        borderRadius: BorderRadius.circular(15),
+      ),
       height: MediaQuery.sizeOf(context).height / 4,
       width: screenWidth,
-      color: Colors.red,
       child: isLoading
           ? const Center(child: CircularProgressIndicator())
           : sprites.isNotEmpty
-          ? CarouselSlider(
-        options: CarouselOptions(
-          height: MediaQuery.sizeOf(context).height / 4,
-          autoPlay: true,
-          autoPlayInterval: const Duration(seconds: 2),
-        ),
-        items: sprites.entries.map((sprite) {
-          return Builder(
-            builder: (BuildContext context) {
-              return CachedNetworkImage(
-                imageUrl: sprite.value,
-                fit: BoxFit.contain,
-                placeholder: (context, url) =>
-                const Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) =>
-                const Icon(Icons.error, size: 40, color: Colors.red),
-              );
-            },
-          );
-        }).toList(),
-      )
-          : const Center(child: Text("No sprites available")),
+              ? CarouselSlider(
+                  options: CarouselOptions(
+                    height: MediaQuery.sizeOf(context).height / 4,
+                    autoPlay: true,
+                    autoPlayInterval: const Duration(seconds: 2),
+                  ),
+                  items: sprites.entries.map((sprite) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return CachedNetworkImage(
+                          imageUrl: sprite.value,
+                          fit: BoxFit.contain,
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) => const Icon(
+                              Icons.error,
+                              size: 40,
+                              color: Colors.red),
+                        );
+                      },
+                    );
+                  }).toList(),
+                )
+              : const Center(child: Text("No sprites available")),
     );
   }
 }
